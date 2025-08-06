@@ -1,20 +1,19 @@
 import type React from "react"
-import "./LoginForm.css"
+import "./LoginFormStyle.css"
 
 export default function LoginForm() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    // In a real application, you would handle authentication here
     console.log("Sign in form submitted!")
   }
 
   return (
     <div className="login-page-container">
       <div className="login-card">
-        {/* Placeholder for your logo */}
         <div className="logo-placeholder">
-          {/* Replace this div with your actual logo component or image */}
-          Your Logo Here
+          <h2>
+            [ Logo ]
+          </h2>
         </div>
 
         <h1 className="form-title">Sign In</h1>
@@ -34,7 +33,7 @@ export default function LoginForm() {
             <input
               id="pw-input"
               name="password"
-              type="password" // Use type="password" for password fields
+              type="password"
               required
               className="form-input"
             />

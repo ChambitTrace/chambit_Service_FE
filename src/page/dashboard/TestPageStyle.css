@@ -1,22 +1,7 @@
-.container {
-  height: 100vh;
+.test-page-container {
   width: 100vw;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
-}
-
-.textWrapper {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.heading {
-  font-size: 1.875rem; /* text-3xl */
-  font-weight: 700; /* font-bold */
-  color: #1F2937; /* text-gray-800 */
 }
