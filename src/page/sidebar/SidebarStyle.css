@@ -1,0 +1,101 @@
+/* Variables for consistent theming */
+:root {
+  --sidebar-bg: #2c3e50; /* Dark blue/grey */
+  --sidebar-text: #ecf0f1; /* Light grey/white */
+  --sidebar-accent: #3498db; /* Blue highlight */
+  --sidebar-hover: #34495e; /* Slightly lighter dark blue for hover */
+  --sidebar-border: #3a506b; /* Darker border for separation */
+}
+
+/* Main sidebar container */
+.sidebar {
+  width: 220px;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  position: relative; /* For absolute positioning of version */
+}
+
+/* User info section */
+.sidebar-user-info {
+  padding: 15px 25px;
+  margin: 40px 0; /* Extra margin for "user" */
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Main menu container */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Allows menu to take up available space */
+}
+
+/* Parent menu item styles */
+.sidebar-menu-item {
+  padding: 12px 25px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 1rem;
+  text-align: left;
+  user-select: none; /* Prevent text selection */
+}
+
+.sidebar-menu-item:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.sidebar-menu-item.active {
+  background-color: var(--sidebar-accent);
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Submenu container */
+.sidebar-submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.1); /* Slightly darker background for submenus */
+  overflow: hidden;
+  transition: max-height 0.3s ease-out; /* Smooth transition for expanding/collapsing */
+  max-height: 0; /* Hidden by default */
+}
+
+.sidebar-submenu.open {
+  max-height: 300px; /* Max height when open (adjust as needed) */
+}
+
+/* Submenu item styles */
+.sidebar-submenu-item {
+  padding: 10px 25px 10px 40px; /* Indent submenu items */
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.sidebar-submenu-item:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.sidebar-submenu-item.active {
+  background-color: var(--sidebar-accent);
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Version info section */
+.sidebar-version-info {
+  padding: 15px 25px;
+  margin-top: auto; /* Pushes it to the bottom */
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center; /* Centered at the bottom */
+}
