@@ -20,10 +20,25 @@
   position: relative; /* For absolute positioning of version */
 }
 
+.sidebar-logo {
+  width: 100%;
+  /* text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--sidebar-text); */
+  /* margin-bottom: 20px; */
+}
+
+.sidebar-logo img {
+  width: 50%;
+  height: auto;
+  margin-left: 3.5em;
+}
+
 /* User info section */
 .sidebar-user-info {
   padding: 15px 25px;
-  margin: 40px 0; /* Extra margin for "user" */
+  margin: 40px 0;
   font-size: 1.1rem;
   font-weight: bold;
   text-align: left;

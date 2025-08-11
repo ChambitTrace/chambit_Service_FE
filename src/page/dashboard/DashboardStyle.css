@@ -15,7 +15,7 @@ body {
 }
 
 /* Main content area styles */
-.main-content {
+.dashboard-main-content {
   flex-grow: 1;
   padding: 10px;
   display: flex;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './SidebarStyle.css'
 
 interface MenuItem {
@@ -10,13 +11,14 @@ interface MenuItem {
 export default function Sidebar() {
   const [openParent, setOpenParent] = useState<string | null>('resource');
   const [activeItem, setActiveItem] = useState<string>('cluster-list');
+  const navigate = useNavigate();
 
   const menuItems: MenuItem[] = [
     {
       id: 'resource', label: 'resource',
       subItems: [
-        { id: 'cluster-list', label: 'cluster list' },
-        { id: 'namespace-list', label: 'namespace list' },
+        { id: 'cluster_list', label: 'cluster list' },
+        { id: 'namespace_list', label: 'namespace list' },
         { id: 'status', label: 'status' },
       ],
     },
@@ -24,7 +26,7 @@ export default function Sidebar() {
       id: 'sbom',
       label: 'SBOM',
       subItems: [
-        { id: 'build-upload', label: 'Build upload' },
+        { id: 'build_upload', label: 'Build upload' },
         { id: 'management', label: 'Management' },
       ],
     },
@@ -43,13 +45,21 @@ export default function Sidebar() {
     setOpenParent(openParent === id ? null : id);
   };
 
-  const handleSubItemClick = (id: string) => {
-    setActiveItem(id);
+  const handleSubItemClick = (itemid: string, subid: string) => {
+    setActiveItem(subid);
+    navigate(`/${itemid}/${subid}`);
   };
+  
 
   return (
     <nav className="sidebar">
       {/* User Info Section */}
+      <a
+        href="/dashboard"
+        className="sidebar-logo"
+      >
+        <img src="../../../public/logo.webp"/>
+      </a>
       <div className="sidebar-user-info">user</div>
 
       {/* Main Menu */}
@@ -70,7 +80,7 @@ export default function Sidebar() {
                     className={`sidebar-submenu-item ${activeItem === subItem.id ? 'active' : ''}`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleSubItemClick(subItem.id);
+                      handleSubItemClick(item.id ,subItem.id);
                     }}
                   >
                     {subItem.label}
