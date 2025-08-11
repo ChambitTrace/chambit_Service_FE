@@ -15,7 +15,7 @@ export default function Sidebar() {
 
   const menuItems: MenuItem[] = [
     {
-      id: 'resource', label: 'resource',
+      id: 'resource', label: 'Resource',
       subItems: [
         { id: 'cluster_list', label: 'cluster list' },
         { id: 'namespace_list', label: 'namespace list' },

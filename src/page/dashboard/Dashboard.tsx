@@ -24,7 +24,7 @@ export default function Dashboard() {
           cols={12}
           rowHeight={100}
           layout={layout}
-          isDraggable={false}
+          isDraggable={true}
           isResizable={true}
         >
           <div key="1" className="card">

@@ -39,8 +39,11 @@ body {
 .card-title {
   font-size: 1.4rem;
   font-weight: 600;
-  margin-bottom: 15px;
   color: #343a40;
+  border-bottom: 1px solid #eee;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
 
 .card-content {
