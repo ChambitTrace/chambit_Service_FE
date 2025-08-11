@@ -14,7 +14,7 @@ export default function Dashboard() {
           cols={12}
           rowHeight={100}
         >
-          <div key="1" data-grid={{ x: 0, y: 0, w: 4, h: 2 }} className="card">
+          <div key="1" data-grid={{ x: 0, y: 0, w: 4, h: 4 }} className="card">
             <h2 className="card-title">컨테이너 상태 추적과 자원조회</h2>
             {/* <div className="card-content">
               <p>• 설명</p>
@@ -22,7 +22,7 @@ export default function Dashboard() {
             </div> */}
           </div>
 
-          <div key="2" data-grid={{ x: 4, y: 0, w: 4, h: 2 }} className="card">
+          <div key="2" data-grid={{ x: 4, y: 0, w: 4, h: 4 }} className="card">
             <h2 className="card-title">정책위반 감지</h2>
             {/* <div className="card-content">
               <p>• 설명</p>
@@ -32,7 +32,7 @@ export default function Dashboard() {
             </div> */}
           </div>
 
-          <div key="3" data-grid={{ x: 8, y: 0, w: 4, h: 2 }} className="card">
+          <div key="3" data-grid={{ x: 8, y: 0, w: 4, h: 4 }} className="card">
             <h2 className="card-title">Drift 감지</h2>
             {/* <div className="card-content">
               <p>• 설명</p>
@@ -42,7 +42,7 @@ export default function Dashboard() {
             </div> */}
           </div>
 
-          <div key="4" data-grid={{ x: 0, y: 2, w: 4, h: 2 }} className="card">
+          <div key="4" data-grid={{ x: 0, y: 2, w: 2, h: 4 }} className="card">
             <h2 className="card-title">SBOM 조회</h2>
             {/* <div className="card-content">
               <p>• 설명</p>
@@ -52,7 +52,7 @@ export default function Dashboard() {
             </div> */}
           </div>
 
-          <div key="5" data-grid={{ x: 4, y: 2, w: 4, h: 2 }} className="card">
+          <div key="5" data-grid={{ x: 2, y: 2, w: 3, h: 4 }} className="card">
             <h2 className="card-title">CVE 리스트</h2>
             {/* <div className="card-content">
               <p>• 설명</p>
@@ -62,11 +62,11 @@ export default function Dashboard() {
             </div> */}
           </div>
 
-          <div key="6" data-grid={{ x: 8, y: 2, w: 4, h: 2 }} className="card">
+          <div key="6" data-grid={{ x: 5, y: 2, w: 7, h: 2 }} className="card">
             <h2 className="card-title">네트워크 모니터링</h2>
           </div>
 
-          <div key="7" data-grid={{ x: 8, y: 4, w: 4, h: 2 }} className="card">
+          <div key="7" data-grid={{ x: 5, y: 4, w: 7, h: 2 }} className="card">
             <h2 className="card-title">CPU, 메모리 모니터링</h2>
           </div>
         </GridLayout>
