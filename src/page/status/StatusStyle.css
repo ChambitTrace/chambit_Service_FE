@@ -16,26 +16,6 @@
   position: relative;
 }
 
-/* .card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  padding: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 20px 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-} */
-
 /* Tree Styles */
 .tree {
   flex: 1;

@@ -6,6 +6,8 @@ import Dashboard from './page/dashboard/Dashboard'
 import ClusterList from './page/cluster_list/ClusterList'
 import NamespaceList from './page/namespace_list/NamespaceList'
 import Status from './page/status/Status'
+import BuildUpload from './page/build_upload/BuildUpload'
+import Management from './page/management/Management'
 import './index.css'
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
         <Route path="/resource/cluster_list" element={<ClusterList />} />
         <Route path="/resource/namespace_list" element={<NamespaceList />} />
         <Route path="/resource/status" element={<Status />} />
+        <Route path="/sbom/build_upload" element={<BuildUpload />} />
+        <Route path="/sbom/management" element={<Management />} />
       </Routes>
     </BrowserRouter>
   )
