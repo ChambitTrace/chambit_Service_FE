@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './SidebarStyle.css'
 
 interface MenuItem {
@@ -12,6 +12,16 @@ export default function Sidebar() {
   const [openParent, setOpenParent] = useState<string | null>('resource');
   const [activeItem, setActiveItem] = useState<string>('cluster-list');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Expecting paths like "/sbom/build_upload" or "/resource/cluster_list"
+    const segments = location.pathname.split('/').filter(Boolean);
+    const parent = segments[0];
+    const child = segments[1];
+    if (parent) setOpenParent(parent);
+    if (child) setActiveItem(child);
+  }, [location.pathname]);
 
   const menuItems: MenuItem[] = [
     {
@@ -46,6 +56,7 @@ export default function Sidebar() {
   };
 
   const handleSubItemClick = (itemid: string, subid: string) => {
+    setOpenParent(itemid);
     setActiveItem(subid);
     navigate(`/${itemid}/${subid}`);
   };
