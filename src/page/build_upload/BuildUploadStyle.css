@@ -42,6 +42,7 @@
   height: auto;
   min-height: 100px;
   box-sizing: border-box;
+  margin-top: 15px;
 }
 
 .upload-placeholder:hover {
@@ -136,16 +137,8 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .main-content {
+  .build-upload-main-content {
     padding: 16px;
-  }
-
-  .card {
-    padding: 16px;
-  }
-
-  .card-title {
-    font-size: 16px;
   }
 
   .upload-placeholder {
@@ -154,7 +147,7 @@
 }
 
 @media (max-width: 768px) {
-  .container {
+  .build-upload-container {
     flex-direction: column;
   }
 

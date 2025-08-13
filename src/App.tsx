@@ -8,6 +8,8 @@ import NamespaceList from './page/namespace_list/NamespaceList'
 import Status from './page/status/Status'
 import BuildUpload from './page/build_upload/BuildUpload'
 import Management from './page/management/Management'
+import CVEList from './page/cvelist/CVEList'
+import CVEDetail from './page/cvelist/CVEListDetail'
 import './index.css'
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path="/resource/status" element={<Status />} />
         <Route path="/sbom/build_upload" element={<BuildUpload />} />
         <Route path="/sbom/management" element={<Management />} />
+        <Route path="/policy/cve" element={<CVEList />} />
+        <Route path="/policy/cve/:cveId" element={<CVEDetail />} />
       </Routes>
     </BrowserRouter>
   )

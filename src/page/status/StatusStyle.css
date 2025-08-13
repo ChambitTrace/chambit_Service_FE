@@ -135,10 +135,6 @@
     padding: 10px;
   }
 
-  /* .card {
-    padding: 15px;
-  } */
-
   .pod-header,
   .pod-row {
     grid-template-columns: 60px 1fr 100px;
