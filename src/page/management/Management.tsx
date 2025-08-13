@@ -26,7 +26,8 @@ const previousSBOMs: SBOMFile[] = [
 ]
 
 const Management: React.FC = () => {
-  const [createDate, setCreateDate] = useState<string>("")
+  const [startDate, setStartDate] = useState<string>("")
+  const [endDate, setEndDate] = useState<string>("")
   const [filename, setFilename] = useState<string>("")
 
   const layout = [
@@ -42,8 +43,28 @@ const Management: React.FC = () => {
 
   const handleCreate = () => {
     // Placeholder for create functionality
-    console.log(`Creating SBOM: ${filename}.json on ${createDate}`)
+    console.log(`Creating SBOM: ${filename}.json on ${startDate} to ${endDate}`)
   }
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setStartDate(value);
+
+    if (endDate && new Date(value) > new Date(endDate)) {
+      alert("시작 날짜는 종료 날짜보다 늦을 수 없습니다.");
+      setStartDate(""); // 잘못된 값 초기화
+    }
+  };
+
+  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEndDate(value);
+
+    if (startDate && new Date(startDate) > new Date(value)) {
+      alert("종료 날짜는 시작 날짜보다 빠를 수 없습니다.");
+      setEndDate(""); // 잘못된 값 초기화
+    }
+  };
 
   return (
     <div className="management-container">
@@ -109,14 +130,28 @@ const Management: React.FC = () => {
             <div className="card-title">SBOM 생성하기</div>
             <div className="form">
               <div className="form-field">
-                <label htmlFor="create-date">생성날짜</label>
-                <input
-                  id="create-date"
-                  type="date"
-                  className="form-input"
-                  value={createDate}
-                  onChange={(e) => setCreateDate(e.target.value)}
-                />
+                <label htmlFor="create-date">기간설정</label>
+                <div className="date-range-group">
+                  <div className="date-input">
+                    <input
+                      id="start-date"
+                      type="date"
+                      className="form-input"
+                      value={startDate}
+                      onChange={handleStartDateChange}
+                    />
+                  </div>
+                  <div className="date-sep">~</div>
+                  <div className="date-input">
+                    <input
+                      id="end-date"
+                      type="date"
+                      className="form-input"
+                      value={endDate}
+                      onChange={handleEndDateChange}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="form-field">
                 <label htmlFor="filename">파일이름</label>
@@ -132,7 +167,7 @@ const Management: React.FC = () => {
                   <span className="file-extension">.json</span>
                 </div>
               </div>
-              <button className="form-button" onClick={handleCreate} disabled={!createDate || !filename}>
+              <button className="form-button" onClick={handleCreate} disabled={!startDate || !endDate || !filename}>
                 생성하기
               </button>
             </div>

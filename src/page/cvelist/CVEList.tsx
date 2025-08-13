@@ -159,14 +159,24 @@ const CVEList: React.FC = () => {
 
           <div key="issues-master" className="card">
             <div className="card-title">ISSUES MASTER</div>
-            <div className="issues-master">
-              <div className="issues-master-row">
-                <span className="label">Vulnerabilities:</span>
-                <span className="count">{totalVulnerabilities}</span>
-              </div>
-              <div className="issues-master-row">
-                <span className="label">Dependencies:</span>
-                <span className="count">{totalDependencies}</span>
+            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              <div className="issues-master">
+                <div className="issues-master-row">
+                  <span className="label">Vulnerabilities:</span>
+                  <span className="count">{totalVulnerabilities}</span>
+                </div>
+                <div className="issues-master-row">
+                  <span className="label">Dependencies:</span>
+                  <span className="count">{totalDependencies}</span>
+                </div>
+                <div className="issues-master-row">
+                  <span className="label">Dependencies:</span>
+                  <span className="count">{totalDependencies}</span>
+                </div>
+                <div className="issues-master-row">
+                  <span className="label">Dependencies:</span>
+                  <span className="count">{totalDependencies}</span>
+                </div>
               </div>
             </div>
           </div>
