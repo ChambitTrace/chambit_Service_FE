@@ -18,7 +18,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             export PATH="$HOME/.local/share/pnpm:$PATH"
-            cd /home/ubuntu/CodeSpace/service/chambit-fe
+            cd /home/ubuntu/CodeSpace/service/chambit_Service_FE/
             git pull origin main
             pnpm install
             pm2 reload ecosystem.config.cjs || pm2 start ecosystem.config.cjs
