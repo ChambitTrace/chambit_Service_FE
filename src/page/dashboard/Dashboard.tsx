@@ -1,9 +1,12 @@
-import RGL, { WidthProvider } from 'react-grid-layout';
-import Sidebar from '../sidebar/Sidebar.tsx'
-import './DashboardStyle.css'
+import RGL, { WidthProvider } from "react-grid-layout";
+import Sidebar from "../sidebar/Sidebar.tsx";
+import "./DashboardStyle.css";
+import { useRequireAuth } from "../../hook/auth/authcheck";
+
 const ReactGridLayout = WidthProvider(RGL);
 
 export default function Dashboard() {
+  useRequireAuth();
 
   const layout = [
     { i: "1", x: 0, y: 0, w: 4, h: 4 },
@@ -12,7 +15,7 @@ export default function Dashboard() {
     { i: "4", x: 0, y: 2, w: 2, h: 3 },
     { i: "5", x: 2, y: 2, w: 3, h: 3 },
     { i: "6", x: 5, y: 2, w: 7, h: 1.5, maxH: 1.5 },
-    { i: "7", x: 5, y: 4, w: 7, h: 1.5, maxH: 1.5 }
+    { i: "7", x: 5, y: 4, w: 7, h: 1.5, maxH: 1.5 },
   ];
 
   return (
