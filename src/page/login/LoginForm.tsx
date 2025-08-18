@@ -1,6 +1,8 @@
 import type React from "react";
 import { useState } from "react";
 import "./LoginFormStyle.css";
+import { useLogin } from "../../hook/auth/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,9 +11,17 @@ const LoginForm = () => {
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { login, loading, error } = useLogin();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("로그인 시도:", formData);
+    try {
+      await login({ email: formData.id, password: formData.password });
+      navigate("/");
+    } catch {
+      // error state handled by hook
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -85,9 +95,15 @@ const LoginForm = () => {
                 </div>
               </div>
 
+              {error && (
+                <p className="error-text" role="alert">
+                  {error}
+                </p>
+              )}
+
               {/* 로그인 버튼 */}
-              <button type="submit" className="login-button">
-                로그인
+              <button type="submit" className="login-button" disabled={loading}>
+                {loading ? "로그인 중..." : "로그인"}
               </button>
             </form>
 
