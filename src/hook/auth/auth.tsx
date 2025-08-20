@@ -29,7 +29,7 @@ export const tokenStore = {
 // ===== Axios base config =====
 // You can set VITE_API_URL or fallback to relative path
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://chambit.kro.kr:8000",
+  baseURL: import.meta.env.VITE_API_URL || "/api",
 });
 
 // Attach token to each request if present
@@ -134,6 +134,80 @@ export function useLogin() {
   }, []);
 
   return { login, loading, error };
+}
+
+export function oauthLogin(provider: "google" | "github" = "google") {
+  // 안전한 baseURL 구성 (후행 슬래시 제거)
+  const base = import.meta.env.VITE_API_URL ?? "";
+  const trimmed = String(base).replace(/\/+$/g, "");
+  const url = `${trimmed}/auth/${provider}`;
+
+  // 브라우저 환경에서만 리다이렉트
+  if (typeof window !== "undefined" && window.location) {
+    window.location.href = url;
+  } else {
+    console.error("oauthLogin called outside the browser:", url);
+  }
+}
+
+export async function handleOauthCallback(
+  provider: "google" | "github" = "google"
+) {
+  if (typeof window === "undefined") {
+    throw new Error("handleOauthCallback must run in the browser");
+  }
+  const { search, hash, pathname } = window.location;
+
+  // 1) URL 쿼리 또는 해시에 토큰이 직접 전달된 경우 처리
+  const raw =
+    search && search.length > 1
+      ? search.slice(1)
+      : hash && hash.startsWith("#")
+      ? hash.slice(1)
+      : "";
+  const params = new URLSearchParams(raw);
+
+  const directAccessToken = params.get("access_token");
+  const directRefreshToken = params.get("refresh_token");
+  const error = params.get("error");
+
+  if (error) {
+    // URL 정리 후 오류 반환
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", pathname);
+    }
+    throw new Error(`OAuth error: ${error}`);
+  }
+
+  if (directAccessToken) {
+    tokenStore.setTokens(directAccessToken, directRefreshToken ?? undefined);
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", pathname);
+    }
+    return {
+      accessToken: directAccessToken,
+      refreshToken: directRefreshToken ?? undefined,
+    };
+  }
+
+  // 2) code 방식인 경우: code를 body로 백엔드 콜백 엔드포인트에 전달하여 토큰 교환
+  const code = params.get("code");
+  if (!code) {
+    throw new Error("No OAuth code or tokens found in URL");
+  }
+
+  const res = await api.post<ApiSuccess<AuthResponseData>>(
+    `/auth/${provider}/callback`,
+    { code }
+  );
+  const { accessToken, refreshToken } = res.data.data;
+  tokenStore.setTokens(accessToken, refreshToken);
+
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, "", pathname);
+  }
+
+  return { accessToken, refreshToken };
 }
 
 // Optional: refresh using stored refreshToken (if your backend expects it in body)

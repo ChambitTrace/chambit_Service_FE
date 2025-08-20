@@ -19,7 +19,7 @@ export function useRequireAuth() {
   useEffect(() => {
     const accessToken = tokenStore.getAccessToken();
     if (!accessToken) {
-      navigate("/", { replace: true });
+      navigate("/login", { replace: true });
     }
   }, [navigate]);
 }

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginForm from "./page/login/LoginForm";
+import OauthCallback from "./page/login/OauthCallback";
 import Signup from "./page/login/Signup";
 import NotFound from "./page/error/Error";
 import TestPage from "./page/testhome/TestPage";
@@ -20,6 +21,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<TestPage />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/oauth/callback" element={<OauthCallback />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/resource/cluster_list" element={<ClusterList />} />
