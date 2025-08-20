@@ -1,7 +1,7 @@
 import type React from "react";
 import { useState } from "react";
 import "./LoginFormStyle.css";
-import { useLogin } from "../../hook/auth/auth";
+import { useLogin, oauthLogin } from "../../hook/auth/auth";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
@@ -18,14 +18,14 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       await login({ email: formData.id, password: formData.password });
-      navigate("/");
+      navigate("/dashboard"); // 로그인 성공 시 대시보드로 이동
     } catch {
       // error state handled by hook
     }
   };
 
   const handleGoogleLogin = () => {
-    console.log("구글 로그인 시도");
+    oauthLogin();
   };
 
   return (
