@@ -7,7 +7,7 @@ import TestPage from "./page/testhome/TestPage";
 import Dashboard from "./page/dashboard/Dashboard";
 import ClusterList from "./page/cluster_list/ClusterList";
 import NamespaceList from "./page/namespace_list/NamespaceList";
-import Status from "./page/status/Status";
+import Status from "./page/status/Pod";
 import BuildUpload from "./page/build_upload/BuildUpload";
 import Management from "./page/management/Management";
 import CVEList from "./page/cvelist/CVEList";

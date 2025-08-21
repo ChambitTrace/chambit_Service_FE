@@ -109,7 +109,7 @@
 
 .ns-header {
   display: grid;
-  grid-template-columns: 60px 1fr 80px;
+  grid-template-columns: 60px 1fr 200px;
   gap: 16px;
   padding: 12px 0;
   border-bottom: 2px solid #dee2e6;
@@ -122,7 +122,7 @@
 
 .ns-row {
   display: grid;
-  grid-template-columns: 60px 1fr 80px;
+  grid-template-columns: 60px 1fr 200px;
   gap: 16px;
   padding: 12px 0;
   border-bottom: 1px solid #f1f3f4;
