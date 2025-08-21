@@ -1,75 +1,79 @@
-import type React from "react"
-import { useState } from "react"
-import RGL, { WidthProvider } from "react-grid-layout"
-import Sidebar from "../sidebar/Sidebar"
-import "./ClusterListStyle.css"
-
-const ReactGridLayout = WidthProvider(RGL)
-
-interface Cluster {
-  id: string
-  name: string
-  status: "healthy" | "error"
+function formatDate(value: number | string | undefined): string {
+  if (!value) return "";
+  const num = typeof value === "string" ? parseInt(value, 10) : value;
+  if (!num || isNaN(num)) return String(value);
+  try {
+    return new Date(num).toLocaleString();
+  } catch {
+    return String(value);
+  }
 }
+import type React from "react";
+import { useState, useEffect, useMemo } from "react";
+import RGL, { WidthProvider } from "react-grid-layout";
+import Sidebar from "../sidebar/Sidebar";
+import "./ClusterListStyle.css";
+import { useClusters } from "../../hook/resource/getResource";
+import { useNodes } from "../../hook/resource/getResource";
 
-interface Node {
-  id: string
-  name: string
-  status: "healthy" | "error"
-  version: string
-  age: string
-}
-
-const mockClusters: Cluster[] = [
-  { id: "1", name: "production-cluster", status: "healthy" },
-  { id: "2", name: "staging-cluster", status: "healthy" },
-  { id: "3", name: "development-cluster", status: "error" },
-  { id: "4", name: "testing-cluster", status: "healthy" },
-  { id: "5", name: "backup-cluster", status: "error" },
-]
-
-const mockNodes: Record<string, Node[]> = {
-  "1": [
-    { id: "1-1", name: "prod-node-01", status: "healthy", version: "v1.28.2", age: "45d" },
-    { id: "1-2", name: "prod-node-02", status: "healthy", version: "v1.28.2", age: "45d" },
-    { id: "1-3", name: "prod-node-03", status: "healthy", version: "v1.28.2", age: "45d" },
-    { id: "1-4", name: "prod-node-04", status: "error", version: "v1.28.1", age: "50d" },
-  ],
-  "2": [
-    { id: "2-1", name: "stage-node-01", status: "healthy", version: "v1.28.2", age: "30d" },
-    { id: "2-2", name: "stage-node-02", status: "healthy", version: "v1.28.2", age: "30d" },
-  ],
-  "3": [
-    { id: "3-1", name: "dev-node-01", status: "error", version: "v1.27.8", age: "60d" },
-    { id: "3-2", name: "dev-node-02", status: "healthy", version: "v1.28.0", age: "35d" },
-    { id: "3-3", name: "dev-node-03", status: "error", version: "v1.27.8", age: "60d" },
-  ],
-  "4": [
-    { id: "4-1", name: "test-node-01", status: "healthy", version: "v1.28.2", age: "20d" },
-    { id: "4-2", name: "test-node-02", status: "healthy", version: "v1.28.2", age: "20d" },
-  ],
-  "5": [{ id: "5-1", name: "backup-node-01", status: "error", version: "v1.27.5", age: "90d" }],
-}
+const ReactGridLayout = WidthProvider(RGL);
 
 const ClusterList: React.FC = () => {
-  const [selectedCluster, setSelectedCluster] = useState<string>("1")
+  const [selectedCluster, setSelectedCluster] = useState<string>("");
+
+  const { data: clusters, loading, error } = useClusters();
+  const {
+    data: nodes,
+    loading: nodesLoading,
+    error: nodesError,
+  } = useNodes(selectedCluster);
+
+  useEffect(() => {
+    if (!selectedCluster && clusters.length > 0) {
+      setSelectedCluster(clusters[0].id);
+    }
+  }, [clusters, selectedCluster]);
 
   const layout = [
     { i: "cluster-list", x: 0, y: 0, w: 4, h: 7 },
     { i: "node-info", x: 4, y: 0, w: 8, h: 7 },
-  ]
+  ];
 
   const handleClusterSelect = (clusterId: string) => {
-    setSelectedCluster(clusterId)
-  }
+    setSelectedCluster(clusterId);
+  };
 
-  const selectedNodes = mockNodes[selectedCluster] || []
-  const selectedClusterName = mockClusters.find((c) => c.id === selectedCluster)?.name || ""
+  const selectedNodes = nodes;
+  const selectedClusterName = useMemo(() => {
+    return clusters.find((c) => c.id === selectedCluster)?.name || "";
+  }, [clusters, selectedCluster]);
 
   return (
     <div className="cluster-list-container">
       <Sidebar />
       <div className="cluster-main-content">
+        {loading && (
+          <div className="card" style={{ marginBottom: 12 }}>
+            <div className="card-title">로딩 중...</div>
+          </div>
+        )}
+        {error && !loading && (
+          <div className="card" style={{ marginBottom: 12 }}>
+            <div className="card-title">에러</div>
+            <div style={{ padding: 12, color: "#c00" }}>{error}</div>
+          </div>
+        )}
+        {nodesLoading && (
+          <div className="card" style={{ marginBottom: 12 }}>
+            <div className="card-title">노드 로딩 중...</div>
+          </div>
+        )}
+        {nodesError && !nodesLoading && (
+          <div className="card" style={{ marginBottom: 12 }}>
+            <div className="card-title">노드 에러</div>
+            <div style={{ padding: 12, color: "#c00" }}>{nodesError}</div>
+          </div>
+        )}
         <ReactGridLayout
           className="layout"
           layout={layout}
@@ -81,10 +85,17 @@ const ClusterList: React.FC = () => {
           <div key="cluster-list" className="card">
             <div className="card-title">클러스터 목록</div>
             <div className="cluster-list">
-              {mockClusters.map((cluster) => (
+              {clusters.length === 0 && !loading && !error && (
+                <div style={{ padding: 12, opacity: 0.7 }}>
+                  표시할 클러스터가 없습니다.
+                </div>
+              )}
+              {clusters.map((cluster) => (
                 <div
                   key={cluster.id}
-                  className={`cluster-item ${selectedCluster === cluster.id ? "active" : ""}`}
+                  className={`cluster-item ${
+                    selectedCluster === cluster.id ? "active" : ""
+                  }`}
                   onClick={() => handleClusterSelect(cluster.id)}
                 >
                   <div className={`status-dot ${cluster.status}`}></div>
@@ -111,7 +122,7 @@ const ClusterList: React.FC = () => {
                 <div className="table-cell">Status</div>
                 <div className="table-cell">Name</div>
                 <div className="table-cell">Version</div>
-                <div className="table-cell">AGE</div>
+                <div className="table-cell">Create At</div>
               </div>
               {selectedNodes.map((node) => (
                 <div key={node.id} className="table-row">
@@ -120,7 +131,7 @@ const ClusterList: React.FC = () => {
                   </div>
                   <div className="table-cell">{node.name}</div>
                   <div className="table-cell">{node.version}</div>
-                  <div className="table-cell">{node.age}</div>
+                  <div className="table-cell">{formatDate(node.ca)}</div>
                 </div>
               ))}
             </div>
@@ -128,7 +139,7 @@ const ClusterList: React.FC = () => {
         </ReactGridLayout>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ClusterList
+export default ClusterList;
