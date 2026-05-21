@@ -31,6 +31,8 @@ interface CVE {
   tags: string[]
 }
 
+// Legacy route keeps this fixture exported for CVEListDetail.
+// eslint-disable-next-line react-refresh/only-export-components
 export const mockCVEs: CVE[] = [
   {
     cveId: "CVE-2024-12345",

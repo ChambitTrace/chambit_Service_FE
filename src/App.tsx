@@ -1,38 +1,29 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginForm from "./page/login/LoginForm";
-import OauthCallback from "./page/login/OauthCallback";
-import Signup from "./page/login/Signup";
-import NotFound from "./page/error/Error";
-import TestPage from "./page/testhome/TestPage";
-import Dashboard from "./page/dashboard/Dashboard";
-import ClusterList from "./page/cluster_list/ClusterList";
-import NamespaceList from "./page/namespace_list/NamespaceList";
-import Status from "./page/status/Status";
-import BuildUpload from "./page/build_upload/BuildUpload";
-import Management from "./page/management/Management";
-import CVEList from "./page/cvelist/CVEList";
-import CVEDetail from "./page/cvelist/CVEListDetail";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { AppLayout } from "./layout/AppLayout";
+import { AlertsPage } from "./pages/AlertsPage";
+import { ClusterStatusPage } from "./pages/ClusterStatusPage";
+import { CveMappingPage } from "./pages/CveMappingPage";
+import { DashboardOverview } from "./pages/DashboardOverview";
+import { DriftDetectionPage } from "./pages/DriftDetectionPage";
+import { PolicyEnginePage } from "./pages/PolicyEnginePage";
+import { RuntimeSbomPage } from "./pages/RuntimeSbomPage";
 import "./index.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <AppLayout>
       <Routes>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<TestPage />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/oauth/callback" element={<OauthCallback />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/resource/cluster_list" element={<ClusterList />} />
-        <Route path="/resource/namespace_list" element={<NamespaceList />} />
-        <Route path="/resource/status" element={<Status />} />
-        <Route path="/sbom/build_upload" element={<BuildUpload />} />
-        <Route path="/sbom/management" element={<Management />} />
-        <Route path="/policy/cve" element={<CVEList />} />
-        <Route path="/policy/cve/:cveId" element={<CVEDetail />} />
+        <Route path="/" element={<DashboardOverview />} />
+        <Route path="/dashboard" element={<Navigate to="/" replace />} />
+        <Route path="/clusters" element={<ClusterStatusPage />} />
+        <Route path="/runtime-sbom" element={<RuntimeSbomPage />} />
+        <Route path="/drift" element={<DriftDetectionPage />} />
+        <Route path="/cves" element={<CveMappingPage />} />
+        <Route path="/policies" element={<PolicyEnginePage />} />
+        <Route path="/alerts" element={<AlertsPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </AppLayout>
   );
 }
 
