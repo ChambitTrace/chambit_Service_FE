@@ -10,6 +10,7 @@ import {
   runtimeSbomComponents,
   severityChartData,
 } from "./mockData";
+import { kubernetesAssetGraph } from "./kubernetesAssetNavigator";
 
 // Keep reads behind this repository so real API calls can replace mock data later.
 export const securityRepository = {
@@ -23,4 +24,5 @@ export const securityRepository = {
   getCveFindings: () => cveFindings,
   getPolicies: () => policyRules,
   getAlerts: () => alerts,
+  getKubernetesAssetGraph: () => kubernetesAssetGraph,
 };
