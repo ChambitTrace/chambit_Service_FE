@@ -1,4 +1,4 @@
-import { Box, Boxes, Cloud, Container, Hexagon, Layers, ShieldAlert } from "lucide-react";
+import { Box, Cloud, Container, Hexagon, Layers, ShieldAlert } from "lucide-react";
 import styled, { css } from "styled-components";
 import type { KubernetesAsset, KubernetesAssetKind, KubernetesAssetRisk } from "../../types/security";
 

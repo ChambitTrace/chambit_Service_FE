@@ -5,6 +5,7 @@ import {
   FileWarning,
   Gauge,
   GitCompareArrows,
+  Hexagon,
   Network,
   ShieldCheck,
 } from "lucide-react";
@@ -15,6 +16,7 @@ import styled from "styled-components";
 const navItems = [
   { label: "Overview", to: "/", icon: Gauge },
   { label: "Cluster Status", to: "/clusters", icon: Network },
+  { label: "K8s Asset Navigator", to: "/kubernetes-assets", icon: Hexagon },
   { label: "Runtime SBOM", to: "/runtime-sbom", icon: Boxes },
   { label: "Drift Detection", to: "/drift", icon: GitCompareArrows },
   { label: "CVE Mapping", to: "/cves", icon: FileWarning },
