@@ -5,6 +5,8 @@ export type RiskLevel = "Critical" | "High" | "Medium" | "Low";
 export type AlertType = "Drift" | "CVE" | "Policy" | "Runtime";
 export type AlertStatus = "Open" | "Investigating" | "Resolved";
 export type PolicyAction = "Block" | "Warn" | "Audit";
+export type KubernetesAssetKind = "cluster" | "namespace" | "pod" | "container" | "component";
+export type KubernetesAssetRisk = "critical" | "high" | "medium" | "low" | "healthy";
 
 export interface MetricCard {
   label: string;
@@ -73,6 +75,37 @@ export interface AlertEvent {
   message: string;
   severity: Severity;
   status: AlertStatus;
+}
+
+export interface KubernetesAsset {
+  id: string;
+  parentId?: string;
+  kind: KubernetesAssetKind;
+  name: string;
+  label: string;
+  risk: KubernetesAssetRisk;
+  status: string;
+  metadata: string;
+  owner?: string;
+  namespace?: string;
+  image?: string;
+  version?: string;
+  cveId?: string;
+  policyBlocked?: boolean;
+  children: KubernetesAsset[];
+}
+
+export interface KubernetesAssetGraph {
+  generatedAt: string;
+  clusters: KubernetesAsset[];
+}
+
+export interface KubernetesAssetSummary {
+  totalAssets: number;
+  byKind: Record<KubernetesAssetKind, number>;
+  highestRisk: KubernetesAssetRisk;
+  exposedComponents: number;
+  policyBlocked: number;
 }
 
 export interface SeverityPoint {
