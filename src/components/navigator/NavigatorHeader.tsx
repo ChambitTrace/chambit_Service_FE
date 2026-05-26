@@ -1,6 +1,5 @@
 import { Bot, HelpCircle, Link2, Share2, Star, Tags, Workflow } from "lucide-react";
 import styled from "styled-components";
-import { SecurityBadge } from "./SecurityBadge";
 
 export function NavigatorHeader() {
   return (
@@ -18,11 +17,6 @@ export function NavigatorHeader() {
           <ActionButton>Metadata</ActionButton>
           <ActionButton><Workflow size={15} /> Workloads</ActionButton>
         </Actions>
-        <StatusStrip>
-          <SecurityBadge label="Services: Good" tone="good" />
-          <SecurityBadge label="Infrastructure: 4% critical alerts" tone="warning" />
-          <SecurityBadge label="Engineering operations: 40% critical alerts" tone="critical" />
-        </StatusStrip>
       </Left>
       <Right>
         <HeaderTool><HelpCircle size={15} /> Help</HeaderTool>
@@ -98,12 +92,6 @@ const IconButton = styled(ActionButton)`
   padding: 0;
   justify-content: center;
   color: ${({ theme }) => theme.colors.warning};
-`;
-
-const StatusStrip = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
 `;
 
 const Right = styled.div`

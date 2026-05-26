@@ -32,21 +32,23 @@ const Chip = styled.label`
   gap: 0.32rem;
   height: 2.1rem;
   padding: 0 0.5rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid rgba(59, 130, 246, 0.32);
   border-radius: 6px;
-  color: ${({ theme }) => theme.colors.muted};
-  background: rgba(7, 16, 20, 0.65);
+  color: #b9d7ff;
+  background: rgba(20, 93, 160, 0.82);
   font-size: 0.75rem;
   font-weight: 800;
   white-space: nowrap;
+  min-width: 0;
 `;
 
 const Select = styled.select`
+  min-width: 0;
   max-width: 9rem;
   border: 0;
   outline: 0;
   appearance: none;
-  color: ${({ theme }) => theme.colors.text};
+  color: #e8f2ff;
   background: transparent;
   font-weight: 900;
 `;

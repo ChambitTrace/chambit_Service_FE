@@ -7,8 +7,11 @@ import {
   GitCompareArrows,
   Hexagon,
   Network,
+  PanelLeftClose,
+  PanelLeftOpen,
   ShieldCheck,
 } from "lucide-react";
+import { useState } from "react";
 import type { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -29,14 +32,23 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
   return (
-    <Shell>
-      <Sidebar>
+    <Shell $sidebarCollapsed={sidebarCollapsed}>
+      <Sidebar $collapsed={sidebarCollapsed}>
+        <SidebarToggle
+          type="button"
+          aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={() => setSidebarCollapsed((current) => !current)}
+        >
+          {sidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
+        </SidebarToggle>
         <Brand>
           <BrandMark>
             <ShieldCheck size={24} />
           </BrandMark>
-          <BrandText>
+          <BrandText $collapsed={sidebarCollapsed}>
             <strong>Chambit</strong>
             <span>Runtime SBOM Security</span>
           </BrandText>
@@ -47,7 +59,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             return (
               <NavItem key={item.to} to={item.to}>
                 <Icon size={18} />
-                <span>{item.label}</span>
+                <NavLabel $collapsed={sidebarCollapsed}>{item.label}</NavLabel>
               </NavItem>
             );
           })}
@@ -70,30 +82,48 @@ export function AppLayout({ children }: AppLayoutProps) {
   );
 }
 
-const Shell = styled.div`
+const Shell = styled.div<{ $sidebarCollapsed: boolean }>`
   display: grid;
-  grid-template-columns: 17rem minmax(0, 1fr);
+  grid-template-columns: ${({ $sidebarCollapsed }) => ($sidebarCollapsed ? "4.75rem" : "17rem")} minmax(0, 1fr);
   min-height: 100vh;
+  transition: grid-template-columns 160ms ease;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const Sidebar = styled.aside`
+const Sidebar = styled.aside<{ $collapsed: boolean }>`
   position: sticky;
   top: 0;
   height: 100vh;
-  padding: 1.25rem;
+  padding: ${({ $collapsed }) => ($collapsed ? "1rem 0.75rem" : "1.25rem")};
   border-right: 1px solid ${({ theme }) => theme.colors.border};
   background: rgba(7, 16, 20, 0.88);
   backdrop-filter: blur(18px);
+  overflow: hidden;
 
   @media (max-width: 900px) {
     position: static;
     height: auto;
     border-right: 0;
     border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  }
+`;
+
+const SidebarToggle = styled.button`
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0 0 1rem auto;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 6px;
+  color: ${({ theme }) => theme.colors.muted};
+  background: rgba(18, 36, 44, 0.82);
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
   }
 `;
 
@@ -115,9 +145,12 @@ const BrandMark = styled.div`
   background: rgba(34, 211, 238, 0.1);
 `;
 
-const BrandText = styled.div`
+const BrandText = styled.div<{ $collapsed: boolean }>`
   display: grid;
   min-width: 0;
+  opacity: ${({ $collapsed }) => ($collapsed ? 0 : 1)};
+  pointer-events: ${({ $collapsed }) => ($collapsed ? "none" : "auto")};
+  transition: opacity 120ms ease;
 
   strong {
     font-size: 1.12rem;
@@ -162,6 +195,10 @@ const NavItem = styled(NavLink)`
     border-color: ${({ theme }) => theme.colors.border};
     background: rgba(18, 36, 44, 0.95);
   }
+`;
+
+const NavLabel = styled.span<{ $collapsed: boolean }>`
+  display: ${({ $collapsed }) => ($collapsed ? "none" : "inline")};
 `;
 
 const Main = styled.main`

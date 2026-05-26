@@ -4,9 +4,12 @@ import type { EntityGroupModel, KubernetesEntity, OverlayMode } from "../../type
 import { EntityGroup } from "./EntityGroup";
 import { EntityTooltip } from "./EntityTooltip";
 
+export type HoneycombAnimationPhase = "idle" | "scatter" | "assemble";
+
 interface HoneycombCanvasProps {
   groups: EntityGroupModel[];
   overlayMode: OverlayMode;
+  animationPhase?: HoneycombAnimationPhase;
   selected?: KubernetesEntity;
   onSelect: (entity: KubernetesEntity) => void;
 }
@@ -17,18 +20,11 @@ interface HoverState {
   y: number;
 }
 
-export function HoneycombCanvas({ groups, overlayMode, selected, onSelect }: HoneycombCanvasProps) {
+export function HoneycombCanvas({ groups, overlayMode, animationPhase = "idle", selected, onSelect }: HoneycombCanvasProps) {
   const [hover, setHover] = useState<HoverState | undefined>();
 
   return (
     <Canvas>
-      <Legend>
-        <span><i className="healthy" /> Healthy</span>
-        <span><i className="warning" /> Warning</span>
-        <span><i className="critical" /> Critical</span>
-        <span><i className="drift" /> Drift ring</span>
-        <span><i className="missing" /> SBOM missing</span>
-      </Legend>
       <ScrollArea>
         <Groups>
           {groups.map((group) => (
@@ -36,6 +32,7 @@ export function HoneycombCanvas({ groups, overlayMode, selected, onSelect }: Hon
               key={group.name}
               group={group}
               overlayMode={overlayMode}
+              animationPhase={animationPhase}
               selectedId={selected?.id}
               onHover={(entity, x, y) => setHover({ entity, x, y })}
               onLeave={() => setHover(undefined)}
@@ -51,7 +48,11 @@ export function HoneycombCanvas({ groups, overlayMode, selected, onSelect }: Hon
 
 const Canvas = styled.section`
   position: relative;
-  min-height: 43rem;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   background:
     linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px),
@@ -59,46 +60,19 @@ const Canvas = styled.section`
   background-size: 34px 34px;
 `;
 
-const Legend = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  padding: 0.8rem 1rem;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.muted};
-  font-size: 0.75rem;
-  font-weight: 800;
-
-  span {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  i {
-    width: 0.7rem;
-    height: 0.7rem;
-    border-radius: 999px;
-  }
-
-  .healthy { background: #22c55e; }
-  .warning { background: #f59e0b; }
-  .critical { background: #ef4444; }
-  .drift { border: 2px solid #a855f7; }
-  .missing { background: #64748b; opacity: 0.65; }
-`;
-
 const ScrollArea = styled.div`
   overflow: auto;
-  height: calc(100vh - 19rem);
-  min-height: 36rem;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
 `;
 
 const Groups = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(44rem, 1fr));
+  grid-template-columns: repeat(3, max-content);
   align-items: start;
-  gap: 1rem;
-  min-width: 92rem;
-  padding: 1rem;
+  gap: 2.9rem 4rem;
+  width: max-content;
+  min-width: 100%;
+  padding: 0.9rem 1rem 1.5rem;
 `;
